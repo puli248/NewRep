@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — CINEC Campus Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --bg: #0b0f1a;
+            --bg2: #111827;
+            --bg3: #1a2235;
+            --card: #151d2e;
+            --border: rgba(255, 255, 255, 0.07);
+            --gold: #f59e0b;
+            --gold2: #fbbf24;
+            --blue: #3b82f6;
+            --blue2: #60a5fa;
+            --green: #10b981;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+            --text: #f1f5f9;
+            --muted: #64748b;
+            --muted2: #94a3b8;
+        }
+        
+        html,
+        body {
+            min-height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        
+        .bg-glow {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.1;
+        }
+        
+        .g1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -150px;
+            right: -100px;
+            animation: d1 8s ease-in-out infinite alternate;
+        }
+        
+        .g2 {
+            width: 400px;
+            height: 400px;
+            background: var(--purple);
+            bottom: -100px;
+            left: -100px;
+            animation: d2 10s ease-in-out infinite alternate;
+        }
+        
+        @keyframes d1 {
+            from {
+                transform: translate(0, 0)
+            }
+            to {
+                transform: translate(30px, 40px)
+            }
+        }
+        
+        @keyframes d2 {
+            from {
+                transform: translate(0, 0)
+            }
+            to {
+                transform: translate(-20px, 30px)
+            }
+        }
+        
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        /* CARD */
+        
+        .card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+            animation: fadeUp .4s ease;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        /* CARD TOP */
+        
+        .card-top {
+            background: linear-gradient(135deg, #0d2847 0%, #1a2235 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 28px 32px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-top::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.08);
+        }
+        
+        .card-top::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.06);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--gold), #ef4444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 13px;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+            flex-shrink: 0;
+        }
+        
+        .brand-name {
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+        
+        .brand-name span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted2);
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .card-title {
+            font-size: 22px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 4px;
+        }
+        
+        .card-title em {
+            color: var(--gold2);
+            font-style: normal;
+        }
+        
+        .card-sub {
+            font-size: 13px;
+            color: var(--muted2);
+            position: relative;
+            z-index: 1;
+        }
+        /* FORM BODY */
+        
+        .card-body {
+            padding: 28px 32px;
+        }
+        /* FIELD */
+        
+        .field {
+            margin-bottom: 18px;
+        }
+        
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted2);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .field label .req {
+            color: var(--red);
+            margin-left: 2px;
+        }
+        
+        .input-wrap {
+            position: relative;
+        }
+        
+        .input-wrap .ico {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+        
+        .input-wrap input,
+        .input-wrap select {
+            width: 100%;
+            height: 50px;
+            background: var(--bg2);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 0 14px 0 44px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: all .2s;
+            appearance: none;
+        }
+        
+        .input-wrap input::placeholder {
+            color: var(--muted);
+        }
+        
+        .input-wrap input:focus,
+        .input-wrap select:focus {
+            border-color: var(--blue);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .input-wrap input.valid {
+            border-color: var(--green);
+        }
+        
+        .input-wrap input.err,
+        .input-wrap select.err {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .sel-arrow {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--muted);
+        }
+        
+        .sel-arrow svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .eye-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            transition: color .2s;
+        }
+        
+        .eye-btn:hover {
+            color: var(--muted2);
+        }
+        
+        .eye-btn svg {
+            width: 17px;
+            height: 17px;
+        }
+        /* ID preview */
+        
+        .id-tag {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 7px 12px;
+            margin-top: 7px;
+        }
+        
+        .id-tag svg {
+            width: 14px;
+            height: 14px;
+            color: var(--blue2);
+            flex-shrink: 0;
+        }
+        
+        .id-tag .val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue2);
+        }
+        /* errors */
+        
+        .f-err {
+            font-size: 11px;
+            color: var(--red);
+            margin-top: 6px;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .f-err.show {
+            display: flex;
+        }
+        
+        .f-err svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+        /* strength */
+        
+        .pw-strength {
+            margin-top: 8px;
+        }
+        
+        .pw-bars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+        
+        .pw-bar {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--bg3);
+            transition: background .3s;
+        }
+        
+        .pw-lbl {
+            font-size: 11px;
+            color: var(--muted2);
+            transition: color .3s;
+        }
+        /* divider */
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 11px;
+            margin: 4px 0 20px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        /* SUBMIT */
+        
+        .submit-btn {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 13px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .submit-btn:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: .5;
+            pointer-events: none;
+        }
+        
+        .submit-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+        /* FOOTER */
+        
+        .card-foot {
+            padding: 16px 32px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        .card-foot a {
+            color: var(--blue2);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .card-foot a:hover {
+            text-decoration: underline;
+        }
+        /* SUCCESS */
+        
+        .success-overlay {
+            display: none;
+            padding: 48px 32px;
+            text-align: center;
+            animation: fadeUp .4s ease;
+        }
+        
+        .success-overlay.show {
+            display: block;
+        }
+        
+        .s-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.12);
+            border: 2px solid var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+            animation: pop .5s cubic-bezier(.34, 1.56, .64, 1);
+        }
+        
+        @keyframes pop {
+            from {
+                transform: scale(0);
+                opacity: 0
+            }
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+        
+        .s-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .s-title span {
+            color: var(--gold2);
+        }
+        
+        .s-sub {
+            font-size: 13px;
+            color: var(--muted2);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        
+        .s-id-box {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 24px;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+        
+        .s-id-box .lbl {
+            font-size: 11px;
+            color: var(--muted2);
+            margin-bottom: 4px;
+        }
+        
+        .s-id-box .val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold2);
+        }
+        
+        .go-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--green), #059669);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        
+        .go-btn:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+        
+        .go-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="bg-glow g1"></div>
+    <div class="bg-glow g2"></div>
+
+    <div class="page">
+        <div class="card">
+
+            <!-- TOP -->
+            <div class="card-top">
+                <div class="brand">
+                    <div class="brand-icon">LCH</div>
+                    <div class="brand-name">
+                        Live Campus Hub
+                        <span>CINEC CAMPUS · MALABE</span>
+                    </div>
+                </div>
+                <div class="card-title">Create your <em>Account</em></div>
+                <div class="card-sub">Fill in your details to get started</div>
+            </div>
+
+            <!-- FORM -->
+            <div class="card-body" id="formBody">
+
+                <!-- Full Name -->
+                <div class="field">
+                    <label>Full Name <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <svg class="ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <input type="text" id="fullName" placeholder="e.g. Medhani Niwoda" oninput="validate('fullName')">
+                    </div>
+                    <div class="f-err" id="fullName-err">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please enter your full name
+                    </div>
+                </div>
+
+                <!-- Student Index / ID -->
+                <div class="field">
+                    <label>Student Index / ID Number <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <svg class="ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                        <input type="text" id="studentId" placeholder="e.g. 2024CS001" style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.5px" oninput="validate('studentId'); showIdTag()">
+                    </div>
+                    <div class="id-tag" id="idTag">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <div class="val" id="idTagVal">–</div>
+                    </div>
+                    <div class="f-err" id="studentId-err">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please enter your student index
+                        number
+                    </div>
+                </div>
+
+                <!-- Faculty / Course -->
+                <div class="field">
+                    <label>Faculty / Course <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <svg class="ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        <select id="faculty" onchange="validate('faculty')">
+            <option value="">— Select your course —</option>
+            <optgroup label="Faculty of Computing">
+              <option>Software Engineering</option>
+              <option>Computer Science</option>
+              <option>Information Technology</option>
+              <option>Cyber Security</option>
+              <option>Data Science &amp; Artificial Intelligence</option>
+              <option>Computer Networks &amp; Security</option>
+              <option>Multimedia Technology</option>
+            </optgroup>
+            <optgroup label="Faculty of Business">
+              <option>Business Information Systems</option>
+              <option>Business Management</option>
+              <option>Accounting &amp; Finance</option>
+            </optgroup>
+            <optgroup label="Faculty of Engineering">
+              <option>Electrical &amp; Electronic Engineering</option>
+              <option>Mechanical Engineering</option>
+              <option>Civil Engineering</option>
+            </optgroup>
+            <optgroup label="Faculty of Aviation">
+              <option>Aircraft Maintenance Engineering</option>
+              <option>Air Transport Management</option>
+              <option>Cabin Crew &amp; Ground Operations</option>
+            </optgroup>
+          </select>
+                        <div class="sel-arrow">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                    </div>
+                    <div class="f-err" id="faculty-err">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select your course
+                    </div>
+                </div>
+
+                <div class="divider">Account Security</div>
+
+                <!-- Password -->
+                <div class="field">
+                    <label>Password <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <svg class="ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="password" placeholder="Min. 8 characters" oninput="checkStrength(); validate('password')">
+                        <button class="eye-btn" type="button" onclick="toggleEye('password',this)" tabindex="-1">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+                    </div>
+                    <div class="pw-strength">
+                        <div class="pw-bars">
+                            <div class="pw-bar" id="b1"></div>
+                            <div class="pw-bar" id="b2"></div>
+                            <div class="pw-bar" id="b3"></div>
+                            <div class="pw-bar" id="b4"></div>
+                        </div>
+                        <div class="pw-lbl" id="pwLbl">Enter a password</div>
+                    </div>
+                    <div class="f-err" id="password-err">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Password must be at least 8 characters
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="field" style="margin-bottom:24px">
+                    <label>Confirm Password <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <svg class="ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="confirmPw" placeholder="Re-enter your password" oninput="checkMatch()">
+                        <button class="eye-btn" type="button" onclick="toggleEye('confirmPw',this)" tabindex="-1">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+                    </div>
+                    <div class="f-err" id="confirmPw-err">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Passwords do not match
+                    </div>
+                </div>
+
+                <!-- SUBMIT -->
+                <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Create Account
+      </button>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="success-overlay" id="successScreen">
+                <div class="s-icon">🎉</div>
+                <div class="s-title">Welcome to <span>CINEC</span> Hub!</div>
+                <div class="s-sub">Your account has been created successfully.<br>Start checking in and earning points!</div>
+                <div class="s-id-box">
+                    <div class="lbl">Your Student ID</div>
+                    <div class="val" id="finalId">–</div>
+                </div><br>
+                <button class="go-btn">
+        Go to Dashboard
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="card-foot" id="cardFoot">
+                Already have an account? <a href="index.html">Sign in here</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Show ID tag as user types
+        function showIdTag() {
+            const val = document.getElementById('studentId').value.trim();
+            const tag = document.getElementById('idTag');
+            const tv = document.getElementById('idTagVal');
+            if (val.length > 1) {
+                tag.style.display = 'flex';
+                tv.textContent = 'CINEC-ID: ' + val.toUpperCase();
+            } else {
+                tag.style.display = 'none';
+            }
+        }
+
+        // Field validation
+        function validate(id) {
+            const el = document.getElementById(id);
+            const err = document.getElementById(id + '-err');
+            let ok = false;
+            if (id === 'fullName') ok = el.value.trim().length > 1;
+            if (id === 'studentId') ok = el.value.trim().length > 2;
+            if (id === 'faculty') ok = el.value !== '';
+            if (id === 'password') ok = el.value.length >= 8;
+            if (ok) {
+                el.classList.add('valid');
+                el.classList.remove('err');
+                if (err) err.classList.remove('show');
+            } else {
+                el.classList.remove('valid');
+            }
+        }
+
+        // Password strength meter
+        function checkStrength() {
+            const pw = document.getElementById('password').value;
+            const bars = [1, 2, 3, 4].map(i => document.getElementById('b' + i));
+            const lbl = document.getElementById('pwLbl');
+            bars.forEach(b => b.style.background = 'var(--bg3)');
+            let score = 0;
+            if (pw.length >= 8) score++;
+            if (/[A-Z]/.test(pw)) score++;
+            if (/[0-9]/.test(pw)) score++;
+            if (/[^A-Za-z0-9]/.test(pw)) score++;
+            const colors = ['', '#ef4444', '#f59e0b', '#3b82f6', '#10b981'];
+            const labels = ['Enter a password', 'Weak — too short', 'Fair — add numbers', 'Good — add a symbol!', 'Strong password!'];
+            for (let i = 0; i < score; i++) bars[i].style.background = colors[score];
+            lbl.textContent = pw.length ? labels[score] : 'Enter a password';
+            lbl.style.color = colors[score] || 'var(--muted2)';
+        }
+
+        // Match check
+        function checkMatch() {
+            const pw = document.getElementById('password').value;
+            const cpw = document.getElementById('confirmPw');
+            const err = document.getElementById('confirmPw-err');
+            if (cpw.value && cpw.value !== pw) {
+                cpw.classList.add('err');
+                cpw.classList.remove('valid');
+                err.classList.add('show');
+            } else if (cpw.value === pw && cpw.value) {
+                cpw.classList.remove('err');
+                cpw.classList.add('valid');
+                err.classList.remove('show');
+            }
+        }
+
+        function toggleEye(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.innerHTML = inp.type === 'text' ? eyeHide : eyeShow;
+        }
+
+        // Show error helper
+        function showErr(id) {
+            const el = document.getElementById(id);
+            const err = document.getElementById(id + '-err');
+            el.classList.add('err');
+            if (err) err.classList.add('show');
+        }
+
+        // Submit
+        function submitForm() {
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const indexNo = document.getElementById('studentId').value.trim(); // maps to index_no
+            const role = "student"; // default role since this is student register
+            const password = document.getElementById('password').value;
+            const confirmPw = document.getElementById('confirmPw').value;
+
+            if (!fullName || !indexNo || password.length < 8 || password !== confirmPw) {
+                alert("Please fill all fields correctly");
+                return;
+            }
+
+            fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        fullName,
+                        indexNo, // MUST match backend
+                        role, // MUST match backend
+                        password
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+
+                        // Show success screen instead of alert
+                        document.getElementById("formBody").style.display = "none";
+                        document.getElementById("cardFoot").style.display = "none";
+                        document.getElementById("successScreen").classList.add("show");
+                        document.getElementById("finalId").textContent = indexNo;
+
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Server error");
+                });
+        }
+    </script>
+</body>
+
+</html>

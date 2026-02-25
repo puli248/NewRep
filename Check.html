@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+
+<body class="" style="background-image: WhatsApp image 2026-02-23 at 13.20.41.jpeg;">
+    <h1>Event Check-In</h1>
+    <div style="width: 320px; height: 400px; padding: 9px; background: #1E293B; border: 2px white; border-radius: 7px;margin: 0; margin-left: 50px; margin-right: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                text-align: center; margin-top: 80px;
+                display: grid;">
+        <input type="text" id="name" class="containercheck" style="padding: 20px; height: 14px; border: white; border-radius: 10px" placeholder="Enter your name"><br>
+        <input type="email" id="email" class="containercheck" style="padding: 20px; height: 14px; border: white; border-radius: 10px;" placeholder="Enter your email"><br>
+        <input type="text" id="faculty" class="containercheck" style="padding: 20px; height: 14px; border: white; border-radius:10px;" placeholder="Enter Faculy"><br>
+        <input type="text" id="studentid" class="containercheck" style="padding: 20px; height: 14px; border: white; border-radius:10px " placeholder="Enter Student id"><br>
+        <input type="text" id="batch" class="containercheck" style="padding: 20px; height: 14px; border: white; border-radius:10px; " placeholder="Enter Batch"><br>
+
+        <button onclick="checkIn()" class="butt" style="border: white; border-radius:10px; background-color: #2B65EC; color: white;
+                
+                                                     ">Check In</button>
+    </div>
+    <script>
+        function checkIn() {
+
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let faculty = document.getElementById("faculty").value.trim();
+            let studentid = document.getElementById("studentid").value.trim();
+            let batch = document.getElementById("batch").value.trim();
+
+            if (name === "" || email === "" || faculty === "" || studentid === "" || batch === "") {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            // ✅ Success alert
+            alert(`✔ Successfully Checked In!
+    
+Name: ${name}
+Email: ${email}
+Faculty: ${faculty}
+Student ID: ${studentid}
+Batch: ${batch}`);
+
+            let list = document.getElementById("checkInList");
+
+            let newItem = document.createElement("div");
+            newItem.style.padding = "10px";
+            newItem.style.marginTop = "8px";
+            newItem.style.backgroundColor = "#f0f8ff";
+            newItem.style.borderRadius = "5px";
+
+            newItem.innerHTML = `✔ ${name} (${email} | ${faculty} | ${studentid} | ${batch})`;
+
+            list.appendChild(newItem);
+
+            // Clear inputs
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("faculty").value = "";
+            document.getElementById("studentid").value = "";
+            document.getElementById("batch").value = "";
+        }
+    </script>
+</body>
+
+</html>

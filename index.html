@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CINEC Campus — Student Portal Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --navy: #003087;
+            --navy-dark: #001f5c;
+            --navy-deeper: #000e35;
+            --blue-accent: #1a56d6;
+            --sky: #4f8ef7;
+            --sky-soft: #7aaeff;
+            --gold: #f5b800;
+            --white: #ffffff;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            font-family: 'Outfit', sans-serif;
+            background: var(--navy-deeper);
+        }
+        /* ── FULL PAGE BACKGROUND ── */
+        
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Deep space gradient */
+        
+        .page-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #000820 0%, #001260 45%, #000d38 100%);
+        }
+        /* Grid lines */
+        
+        .page-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(79, 142, 247, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 142, 247, 0.05) 1px, transparent 1px);
+            background-size: 44px 44px;
+        }
+        /* Stars */
+        
+        .page-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(1.5px 1.5px at 15% 25%, rgba(255, 255, 255, 0.5) 0%, transparent 100%), radial-gradient(1px 1px at 75% 12%, rgba(255, 255, 255, 0.4) 0%, transparent 100%), radial-gradient(1px 1px at 45% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 100%), radial-gradient(2px 2px at 88% 48%, rgba(79, 142, 247, 0.5) 0%, transparent 100%), radial-gradient(1px 1px at 8% 82%, rgba(255, 255, 255, 0.4) 0%, transparent 100%), radial-gradient(1.5px 1.5px at 62% 85%, rgba(255, 255, 255, 0.3) 0%, transparent 100%), radial-gradient(1px 1px at 32% 8%, rgba(255, 255, 255, 0.5) 0%, transparent 100%), radial-gradient(1px 1px at 92% 72%, rgba(255, 255, 255, 0.3) 0%, transparent 100%), radial-gradient(1.5px 1.5px at 55% 38%, rgba(245, 184, 0, 0.3) 0%, transparent 100%);
+        }
+        /* Glow orbs */
+        
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+        }
+        
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(26, 86, 214, 0.15);
+            top: -200px;
+            left: -200px;
+        }
+        
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: rgba(79, 142, 247, 0.1);
+            bottom: -150px;
+            right: -100px;
+        }
+        
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: rgba(245, 184, 0, 0.05);
+            top: 20%;
+            left: 55%;
+        }
+        /* ── LOGIN CARD ── */
+        
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 460px;
+            margin: 32px 16px;
+            background: rgba(4, 10, 38, 0.90);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(79, 142, 247, 0.15);
+            border-radius: 24px;
+            padding: 48px 44px 40px;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(26, 86, 214, 0.12);
+            animation: riseUp 0.8s cubic-bezier(.22, 1, .36, 1) both;
+        }
+        /* Gold top line */
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--sky) 60%, transparent);
+            border-radius: 2px;
+        }
+        /* ── LOGO AREA ── */
+        
+        .card-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--sky) 0%, var(--navy) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 18px rgba(79, 142, 247, 0.4);
+            flex-shrink: 0;
+        }
+        
+        .logo-text strong {
+            display: block;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+        
+        .logo-text span {
+            color: rgba(255, 255, 255, 0.32);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        /* ── BADGE ── */
+        
+        .lp-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(245, 184, 0, 0.1);
+            border: 1px solid rgba(245, 184, 0, 0.25);
+            color: var(--gold);
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+        
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+            line-height: 1.1;
+        }
+        
+        .card-sub {
+            color: rgba(255, 255, 255, 0.32);
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+        /* ── ROLE TABS ── */
+        
+        .role-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+            gap: 4px;
+        }
+        
+        .role-tab {
+            flex: 1;
+            padding: 9px 6px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.38);
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 9px;
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .role-tab.active {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue-accent) 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 48, 135, 0.5);
+        }
+        /* ── FORM ── */
+        
+        .fg {
+            margin-bottom: 15px;
+        }
+        
+        .fg label {
+            display: block;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            margin-bottom: 7px;
+        }
+        
+        .iw {
+            position: relative;
+        }
+        
+        .ii {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 11px;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13.5px;
+            padding: 12px 14px 12px 42px;
+            outline: none;
+            transition: border-color .25s, box-shadow .25s, background .25s;
+            -webkit-appearance: none;
+        }
+        
+        select {
+            cursor: pointer;
+        }
+        
+        select option {
+            background: #000e35;
+            color: #fff;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.18);
+        }
+        
+        input:focus,
+        select:focus {
+            border-color: var(--sky);
+            background: rgba(79, 142, 247, 0.08);
+            box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.13);
+        }
+        
+        input.invalid {
+            border-color: rgba(239, 68, 68, 0.6) !important;
+        }
+        
+        .eye-btn {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.22);
+            font-size: 14px;
+            transition: color .2s;
+            z-index: 1;
+        }
+        
+        .eye-btn:hover {
+            color: var(--sky-soft);
+        }
+        
+        .field-error {
+            color: #f87171;
+            font-size: 11.5px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .field-error.show {
+            display: block;
+        }
+        
+        .row-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            margin-top: 4px;
+        }
+        
+        .remember-lbl {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: rgba(255, 255, 255, 0.36);
+            font-size: 12.5px;
+            cursor: pointer;
+        }
+        
+        .remember-lbl input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--sky);
+            padding: 0;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .forgot-link {
+            color: var(--sky-soft);
+            font-size: 12.5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        
+        .forgot-link:hover {
+            color: #fff;
+        }
+        /* ── SIGN IN BUTTON ── */
+        
+        .btn-signin {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue-accent) 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 6px 28px rgba(0, 48, 135, 0.5);
+            letter-spacing: 0.02em;
+        }
+        
+        .btn-signin::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left .5s;
+        }
+        
+        .btn-signin:hover::before {
+            left: 100%;
+        }
+        
+        .btn-signin:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 36px rgba(0, 48, 135, 0.65);
+        }
+        
+        .btn-signin:active {
+            transform: translateY(0);
+        }
+        /* ── DIVIDER ── */
+        
+        .lp-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        
+        .lp-divider::before,
+        .lp-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+        }
+        
+        .btn-sso {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            transition: all .2s;
+        }
+        
+        .btn-sso:hover {
+            background: rgba(79, 142, 247, 0.1);
+            border-color: rgba(79, 142, 247, 0.25);
+            color: #fff;
+        }
+        
+        .card-footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.18);
+            font-size: 11.5px;
+            margin-top: 20px;
+        }
+        /* ── ANIMATION ── */
+        
+        @keyframes riseUp {
+            from {
+                opacity: 0;
+                transform: translateY(32px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <!-- Background layers -->
+        <div class="page-bg"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- Login Card -->
+        <div class="login-card">
+
+            <!-- Logo -->
+            <div class="card-logo">
+                <div class="logo-icon">🎓</div>
+                <div class="logo-text">
+                    <strong>CINEC Campus</strong>
+                    <span>Student Portal — Academic Management System</span>
+                </div>
+            </div>
+
+            <div class="lp-badge">🔐 &nbsp; Secure Login</div>
+            <h2 class="card-title">Sign In</h2>
+            <p class="card-sub">Enter your CINEC credentials to access your portal</p>
+
+            <!-- Role tabs -->
+            <div class="role-tabs">
+                <button class="role-tab active" onclick="setRole(this,'student')">🎓 Student</button>
+                <button class="role-tab" onclick="setRole(this,'lecturer')">👨‍🏫 Lecturer</button>
+                <button class="role-tab" onclick="setRole(this,'staff')">🏢 Staff</button>
+            </div>
+
+            <!-- Index Number -->
+            <div class="fg">
+                <label>Index / Employee ID</label>
+                <div class="iw">
+                    <span class="ii">👤</span>
+                    <input type="text" id="usernameInput" placeholder="e.g. EG/2021/IT/0142" autocomplete="off" />
+                </div>
+                <div class="field-error" id="err-user">Please enter your Index / Employee ID</div>
+            </div>
+
+            <!-- Password -->
+            <div class="fg">
+                <label>Password</label>
+                <div class="iw">
+                    <span class="ii">🔒</span>
+                    <input type="password" id="passwordInput" placeholder="Enter your password" />
+                    <button class="eye-btn" onclick="toggleEye()" tabindex="-1">👁</button>
+                </div>
+                <div class="field-error" id="err-pass">Please enter your password</div>
+            </div>
+
+            <!-- Faculty (student only) -->
+            <div class="fg" id="facultyWrap">
+                <label>Faculty</label>
+                <div class="iw">
+                    <span class="ii">🏛</span>
+                    <select id="facultySelect">
+                    <option value="">Select your faculty</option>
+                    <option>Faculty of Engineering Technology</option>
+                    <option>Faculty of Management Studies</option>
+                    <option>Faculty of Nautical Studies</option>
+                    <option>Faculty of Aviation</option>
+                    <option>Faculty of Social Sciences & Humanities</option>
+                    <option>Faculty of Graduate Studies</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="row-between">
+                <label class="remember-lbl">
+                <input type="checkbox" /> Remember me
+            </label>
+                <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button class="btn-signin" id="signInBtn" onclick="doLogin()">
+            Sign In to Portal &nbsp;➜
+        </button><br>
+
+            <div class="lp-divider">or continue with</div>
+
+            <button class="btn-sso" onclick="doRegister()">
+            🏫 &nbsp; Register
+        </button>
+
+            <p class="card-footer">Protected by SSL &nbsp;·&nbsp; IT Support: 011-2 413 000</p>
+        </div>
+    </div>
+
+    <script>
+        function setRole(btn, role) {
+            document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('facultyWrap').style.display = role === 'student' ? 'block' : 'none';
+            const ph = {
+                student: 'e.g. EG/2021/IT/0142',
+                lecturer: 'e.g. LEC/2018/0024',
+                staff: 'e.g. STF/2020/0088'
+            };
+            document.getElementById('usernameInput').placeholder = ph[role];
+        }
+
+        function toggleEye() {
+            const inp = document.getElementById('passwordInput');
+            const btn = document.querySelector('.eye-btn');
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+        }
+
+        function doLogin() {
+            const indexNo = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+
+            if (!indexNo || !password) {
+                alert("Please enter ID and password");
+                return;
+            }
+
+            fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        indexNo,
+                        password
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Welcome " + data.user.full_name);
+                        window.location.href = "home.html";
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Server error");
+                });
+        }
+
+        function doRegister() {
+            window.location.href = "register.html";
+        }
+    </script>
+</body>
+
+</html>
